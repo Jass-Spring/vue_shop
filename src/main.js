@@ -1,9 +1,10 @@
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import './plugins/element.js'
 
-Vue.config.productionTip = false
+import './plugins/element.js'
+import './assets/css/global.css'
+import './assets/fonts/iconfont.css'
+import router from './router'
+import App from './App.vue'
 
 new Vue({
   router,
