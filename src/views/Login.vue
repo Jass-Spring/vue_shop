@@ -3,7 +3,7 @@
     <div class="login-box">
       <!-- 头像 -->
       <div class="avatar-box">
-        <img src="../assets/logo.png" alt="">
+        <img src="../assets/logo.png" alt />
       </div>
       <!-- 登录表单 -->
       <el-form class="login-form" ref="loginFormRef" :model="loginForm" :rules="loginFormRules">
@@ -13,7 +13,11 @@
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input prefix-icon="iconfont icon-3702mima" type="password" v-model="loginForm.password"></el-input>
+          <el-input
+            prefix-icon="iconfont icon-3702mima"
+            type="password"
+            v-model="loginForm.password"
+          ></el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="login-btns">
@@ -29,7 +33,7 @@
 import { reqLogin } from '../api'
 
 export default {
-  data () {
+  data() {
     return {
       // 登录表单数据
       loginForm: {
@@ -51,11 +55,11 @@ export default {
   },
   methods: {
     // 重置表单数据
-    resetLoginForm () {
+    resetLoginForm() {
       this.$refs.loginFormRef.resetFields()
     },
     // 登录
-    login () {
+    login() {
       this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return
         const { data: res } = await reqLogin(this.loginForm)

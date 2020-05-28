@@ -22,6 +22,7 @@
           router
           :collapse="isCollapse"
           :collapse-transition="false"
+          :default-active="$route.path"
         >
           <!-- 一级菜单 -->
           <el-submenu v-for="item in menuList" :key="item.id" :index="item.id + ''">
@@ -54,13 +55,11 @@
 </template>
 
 <script>
-import { reqMenuList } from '../api'
-
 export default {
-  created () {
+  created() {
     this.getMenuList()
   },
-  data () {
+  data() {
     return {
       menuList: [],
       iconsObj: {
@@ -74,16 +73,16 @@ export default {
     }
   },
   methods: {
-    logout () {
+    logout() {
       window.sessionStorage.clear()
       this.$router.push('/login')
     },
-    async getMenuList () {
-      const { data: res } = await reqMenuList()
+    async getMenuList() {
+      const { data: res } = await this.$http.get('menus')
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
       this.menuList = res.data
     },
-    toggleCollapse () {
+    toggleCollapse() {
       this.isCollapse = !this.isCollapse
     }
   }
