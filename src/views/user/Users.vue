@@ -53,9 +53,9 @@
               size="mini"
               @click="removeUserById(row.id)"
             ></el-button>
-            <!-- 设置按钮 -->
+            <!-- 分配角色按钮 -->
             <el-tooltip effect="dark" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="setRole(row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -101,8 +101,8 @@
     <!-- 修改用户对话框 -->
     <el-dialog
       title="修改用户"
-      :visible.sync="editDialogVisible"
       width="50%"
+      :visible.sync="editDialogVisible"
       @close="edditDialogClosed"
     >
       <!-- 修改用户表单 -->
@@ -124,11 +124,39 @@
         <el-button type="primary" @click="editUserInfo">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 分配角色对话框 -->
+    <el-dialog
+      title="分配角色"
+      width="50%"
+      :visible.sync="setRoleDialogVisible"
+    >
+      <div>
+        <p>当前的用户：{{userInfo.username}}</p>
+        <p>当前的角色：{{userInfo.role_name}}</p>
+        <p>
+          分配新角色：
+          <el-select v-model="selectedRoleId" placeholder="请选择">
+            <el-option
+              v-for="item in roleList"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </p>
+      </div>
+      <!-- 底部按钮 -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="setRoleDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { reqUsers, reqChangeUserState, reqAddUser, reqUserInfoById, reqEditUserInfo, reqDeleteUserById } from '../../api'
+import { reqUsers, reqChangeUserState, reqAddUser, reqUserInfoById, reqEditUserInfo, reqDeleteUserById, reqRoles } from '../../api'
 
 export default {
   created() {
@@ -205,7 +233,15 @@ export default {
           { required: true, message: '请输入手机', trigger: 'blur' },
           { validator: checkMobile, trigger: 'blur' }
         ]
-      }
+      },
+      // 隐藏/显示分配权限对话框
+      setRoleDialogVisible: false,
+      // 需要分配角色的用户信息
+      userInfo: {},
+      // 角色列表数据
+      roleList: [],
+      // 选中的角色id
+      selectedRoleId: ''
     }
   },
   methods: {
@@ -312,6 +348,17 @@ export default {
 
       this.$message.success('删除用户成功！')
       this.getUserList()
+    },
+    // 显示分配用户角色对话框
+    async setRole(userInfo) {
+      this.userInfo = userInfo
+
+      const { data: res } = await reqRoles()
+
+      if (res.meta.status !== 200) return this.$message.error('获取角色列表失败！')
+
+      this.roleList = res.data
+      this.setRoleDialogVisible = true
     }
   }
 }
