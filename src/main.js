@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import './plugins/axios.js'
 import './plugins/element.js'
+import './plugins/treeTable.js'
 import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
 import router from './router'

@@ -6,10 +6,10 @@
         <img src="../assets/logo.png" alt />
       </div>
       <!-- 登录表单 -->
-      <el-form class="login-form" ref="loginFormRef" :model="loginForm" :rules="loginFormRules">
+      <el-form :model="loginForm" :rules="loginFormRules" @keyup.native.enter="login" class="login-form" ref="loginFormRef">
         <!-- 用户名 -->
         <el-form-item prop="username">
-          <el-input prefix-icon="iconfont icon-user" v-model="loginForm.username"></el-input>
+          <el-input v-model="loginForm.username" @keyup.native.enter="login" prefix-icon="iconfont icon-user"></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">

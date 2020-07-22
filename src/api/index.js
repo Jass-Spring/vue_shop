@@ -30,3 +30,15 @@ export const reqRoles = () => axios.get('roles')
 export const reqDeletRight = (roleId, rightId) => axios.delete(`roles/${roleId}/rights/${rightId}`)
 // 分配角色权限
 export const reqSetRights = (roleId, idStr) => axios.post(`roles/${roleId}/rights`, idStr)
+
+// 请求获取商品列表
+export const reqCateList = (queryInfo) => axios.get('categories', { params: queryInfo })
+// 请求添加商品分类
+export const reqAddCate = (addForm) => axios.post('categories', addForm)
+// 请求修改商品分类
+export const reqEditCate = (editForm) => axios.put(
+  `categories/${editForm.cat_id}`,
+  { cat_name: editForm.cat_name }
+)
+// 请求删除商品分类
+export const reqDeleteCateById = (id) => axios.delete(`categories/${id}`)
